@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Bill Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">⚑ <span>Free For Online</span></div>
+    <div class="top-links">
+      <a href="#">HOME</a><a href="#">ABOUT</a><a href="#">CONTACT</a>
+      <input id="topSearch" type="search" placeholder="Type to search...">
+    </div>
+  </header>
+
+  <nav class="tool-nav">
+   
+    <button class="active">Restaurant Bill</button>
+   
+  </nav>
+
+  <main class="page">
+    <h1>Restaurant Bill</h1>
+
+    <div class="workspace">
+      <section class="editor">
+        <h3>Restaurant Details:</h3>
+
+        <div class="grid-2">
+          <label>Restaurant Name
+            <input id="restaurantName" value="WEST HOLLYWOOD">
+          </label>
+          <label>Invoice Number
+            <input id="invoiceNumber" value="3574">
+          </label>
+        </div>
+
+        <label>Restaurant Address
+          <textarea id="restaurantAddress">7677 state Los Angeles</textarea>
+        </label>
+
+        <div class="grid-2">
+          <label>Table No
+            <input id="tableNo" value="45">
+          </label>
+          <label>Bill Date
+            <input id="billDate" type="date">
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>Bill Time
+            <input id="billTime" type="time">
+          </label>
+          <label>Payment Method
+            <select id="paymentMethod">
+              <option>Online</option>
+              <option>Cash</option>
+              <option>Card</option>
+              <option>UPI</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Customer Care Number
+          <input id="careNumber" value="1800 000000">
+        </label>
+
+        <div class="panel">
+          <div class="panel-title">Logo <label class="switch-row"><input id="logoRemove" type="checkbox"> Remove</label></div>
+          <div class="panel-body">
+            <label>Upload Logo
+              <input id="logoFile" type="file" accept="image/*">
+            </label>
+            <label>Or enter logo url
+              <input id="logoUrl" placeholder="https://example.com/logo.png">
+            </label>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Optional Field <label class="switch-row"><input id="optionalRemove" type="checkbox"> Remove</label></div>
+          <div class="panel-body grid-2">
+            <label>Field Name <input id="optionalName" value="Customer Name"></label>
+            <label>Value <input id="optionalValue" value="Mark"></label>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Items <button id="addItem" class="small-btn">＋ Add Items</button></div>
+          <div class="panel-body">
+            <div id="items"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Tax <label class="switch-row"><input id="taxRemove" type="checkbox"> Remove</label></div>
+          <div class="panel-body" id="taxes"></div>
+        </div>
+
+        <div class="panel" id="gstPanel">
+          <div class="panel-title">GST No. <label class="switch-row"><input id="gstRemove" type="checkbox" checked> Remove</label></div>
+          <div class="panel-body">
+            <div class="grid-2">
+              <label>Field Name <input id="gstName" value="GST"></label>
+              <label>Value <input id="gstValue" value="H75667MQ887754"></label>
+            </div>
+            <div class="grid-2">
+              <label>Field Name <input id="fssaiName" value="FSSAI"></label>
+              <label>Value <input id="fssaiValue" value="H75667MQ887754"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Currency Symbol <label class="switch-row"><input id="currencyRemove" type="checkbox" checked> Remove</label></div>
+          <div class="panel-body">
+            <label>Search Currency
+              <input id="currencySearch" placeholder="Search Currency">
+            </label>
+            <label>Select Currency
+              <select id="currency">
+                <option value="₹">Indian Rupee - ₹</option>
+                <option value="$">US Dollar - $</option>
+                <option value="€">Euro - €</option>
+                <option value="£">British Pound - £</option>
+              </select>
+            </label>
+            <div class="radio-row">
+              <label><input type="radio" name="currencyType" value="code"> Code</label>
+              <label><input type="radio" name="currencyType" value="symbol" checked> Symbol</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="download-wrap">
+          <button id="downloadPdf" class="download-btn">Download PDF</button>
+        </div>
+      </section>
+
+      <section class="preview-area">
+        <div class="template-selector">
+          <span>Select Template</span>
+          <button class="template-btn active" data-template="1">1</button>
+          <button class="template-btn" data-template="2">2</button>
+        </div>
+
+        <div class="preview-stage">
+          <button class="expand-btn" id="expandPreview">↗</button>
+          <div id="receipt" class="receipt template-1">
+            <div class="receipt-logo-wrap">
+              <img id="receiptLogo" class="receipt-logo" alt="Logo">
+              <div id="defaultLogo" class="default-logo"></div>
+            </div>
+			
+			 <div class="centerclass">
+            <h2 id="rName">WEST HOLLYWOOD</h2>
+            <div id="rAddress">7677 state Los Angeles</div>
+            <div id="rCare">1800 000000</div>
+			</div>
+
+            <div class="receipt-meta">
+              <div>Receipt No.: <span id="rInvoice">3574</span></div>
+              <div>Table No.: <span id="rTable">45</span></div>
+              <div>Date: <span id="rDate">13 Oct, 2026</span></div>
+              <div>Time: <span id="rTime">10:24</span></div>
+              <div id="rOptional">Customer Name: Mark</div>
+            </div>
+
+            <table class="receipt-items">
+              <thead><tr><th>QTY / Item Name</th><th>Price</th><th>Amount</th></tr></thead>
+              <tbody id="receiptItems"></tbody>
+            </table>
+
+            <div class="totals">
+              <div><span>Sub Total:</span><span id="rSubtotal">₹ 400.00</span></div>
+              <div id="taxRows"></div>
+              <div class="total-line"><strong>Total:</strong><strong id="rTotal">₹ 440.00</strong></div>
+            </div>
+
+            <div class="payment">Payment Mode: <span id="rPayment">Online</span></div>
+			
+			<div id="rGstInfo" class="gst-info">
+    <div>
+        <span id="rGstName">GST</span>:
+        <span id="rGstValue">H75667MQ887754</span>
+    </div>
+
+    <div>
+        <span id="rFssaiName">FSSAI</span>:
+        <span id="rFssaiValue">H75667MQ887754</span>
+    </div>
+</div>
+
+            <div class="thanks">PLEASE VISIT US AGAIN<br>THANK YOU</div>
+            <div class="barcode" id="barcode"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div><h4>POLICIES</h4><a href="#">Privacy Policy</a><a href="#">Terms & Conditions</a><a href="#">Cookie Policy</a><a href="#">Disclaimer</a></div>
+    <div><h4>OUR SERVICES</h4><a href="#">Rent Receipt</a><a href="#">Fuel Bills</a><a href="#">Driver Salary Slip</a><a href="#">LTA Receipt</a><a href="#">URL Shortener</a><a href="#">Helper Bill</a></div>
+    <div><h4>SUPPORT</h4><a href="#">Contact Us</a><a href="#">About Us</a><a href="#">Blog</a><div class="social">●　♥　◎</div></div>
+    <p>Copyright © 2026. Powered by Trignoweb Solution Pvt. Ltd.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
